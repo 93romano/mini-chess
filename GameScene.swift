@@ -6,6 +6,7 @@ class GameScene: SKScene {
     private var board: Board!
     private let squareSize: CGFloat = 60.0
     private var boardNode: SKNode!
+    private var pieceNodes: [[SKNode?]] = Array(repeating: Array(repeating: nil, count: 5), count: 5)
     
     private let lightSquareColor = UIColor(red: 240/255, green: 217/255, blue: 181/255, alpha: 1.0)
     private let darkSquareColor = UIColor(red: 181/255, green: 136/255, blue: 99/255, alpha: 1.0)
@@ -13,6 +14,7 @@ class GameScene: SKScene {
     override func didMove(to view: SKView) {
         setupBoard()
         setupBoardVisuals()
+        setupPieces()
     }
     
     private func setupBoard() {
@@ -55,6 +57,31 @@ class GameScene: SKScene {
     
     private func centerBoard() {
         boardNode.position = CGPoint(x: size.width / 2, y: size.height / 2)
+    }
+    
+    private func setupPieces() {
+        for row in 0..<board.size {
+            for col in 0..<board.size {
+                if let piece = board.pieceAt(row: row, col: col) {
+                    let pieceNode = PixelPieces.createPiece(
+                        type: piece.type,
+                        color: piece.color,
+                        size: squareSize * 0.8
+                    )
+                    
+                    let square = board.squares[row][col]
+                    pieceNode.position = square.position
+                    pieceNode.zPosition = 1
+                    
+                    boardNode.addChild(pieceNode)
+                    
+                    if pieceNodes.isEmpty {
+                        pieceNodes = Array(repeating: Array(repeating: nil, count: 5), count: 5)
+                    }
+                    pieceNodes[row][col] = pieceNode
+                }
+            }
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
