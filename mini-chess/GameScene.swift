@@ -25,6 +25,16 @@ class GameScene: SKScene {
         backgroundColor = .systemBlue
         print("🔍 배경색 설정됨")
 
+        // 임시 테스트용 - 화면 중앙에 큰 빨간 원 추가
+        let testCircle = SKShapeNode(circleOfRadius: 100)
+        testCircle.fillColor = .red
+        testCircle.strokeColor = .white
+        testCircle.lineWidth = 5
+        testCircle.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        testCircle.zPosition = 1000
+        addChild(testCircle)
+        print("🔴 테스트용 빨간 원 추가됨")
+
         setupBoard()
         print("🔍 보드 설정 완료")
 
