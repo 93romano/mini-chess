@@ -18,12 +18,30 @@ class GameScene: SKScene {
     private let darkSquareColor = UIColor(red: 181/255, green: 136/255, blue: 99/255, alpha: 1.0)
     
     override func didMove(to view: SKView) {
+        print("🔍 GameScene didMove 호출됨")
+        print("🔍 Scene size: \(size)")
+        print("🔍 View bounds: \(view.bounds)")
+
+        backgroundColor = .systemBlue
+        print("🔍 배경색 설정됨")
+
         setupBoard()
+        print("🔍 보드 설정 완료")
+
         setupBoardVisuals()
+        print("🔍 보드 비주얼 설정 완료")
+
         setupPieces()
+        print("🔍 피스 설정 완료")
+
         setupUI()
+        print("🔍 UI 설정 완료")
+
         setupSounds()
+        print("🔍 사운드 설정 완료")
+
         gameManager = GameManager(gameScene: self)
+        print("🔍 GameManager 설정 완료")
     }
     
     private func setupBoard() {
