@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- 앱을 스토리보드로 시작하도록 지정 -->
+    <key>UIMainStoryboardFile</key>
+    <string>Main</string>
+    
+    <!-- 런치 스토리보드 명시 (빌드 설정에서도 주입되지만 중복 명시하여 명확화) -->
+    <key>UILaunchStoryboardName</key>
+    <string>LaunchScreen</string>
+</dict>
+</plist>

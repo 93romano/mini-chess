@@ -10,15 +10,15 @@ class GameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("🔍 ViewController viewDidLoad 호출됨")
+        print("ViewController viewDidLoad 호출됨")
 
         guard let skView = self.view as? SKView else {
-            print("❌ SKView 생성 실패")
+            print("SKView 생성 실패")
             return
         }
 
-        print("🔍 SKView 생성 성공")
-        print("🔍 SKView bounds: \(skView.bounds)")
+        print("SKView 생성 성공")
+        print("SKView bounds: \(skView.bounds)")
 
         // Configure SKView
         skView.showsFPS = true
@@ -32,12 +32,11 @@ class GameViewController: UIViewController {
 
         guard let skView = self.view as? SKView else { return }
 
-        print("🔍 viewDidAppear - SKView bounds: \(skView.bounds)")
+        print("viewDidAppear - SKView bounds: \(skView.bounds)")
 
         // Create and present scene when view is properly sized
         let scene = GameScene(size: skView.bounds.size)
         scene.scaleMode = .aspectFill
-        print("🔍 GameScene 생성됨 - size: \(scene.size)")
         skView.presentScene(scene)
     }
 
