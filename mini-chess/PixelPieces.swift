@@ -13,7 +13,19 @@ class PixelPieces {
         "########",
         " ###### "
     ]
-    
+
+    // Bishop pattern (8x8)
+    static let bishopPattern = [
+        "   ++   ",
+        "  ####  ",
+        "  #XX#  ",
+        "   ##   ",
+        "  ####  ",
+        "  ####  ",
+        "  ####  ",
+        "  ####  "
+    ]
+
     // Rook pattern (8x8)
     static let rookPattern = [
         " ## ##  ",
@@ -38,6 +50,18 @@ class PixelPieces {
         "########"
     ]
     
+    // Pawn pattern (8x8)
+    static let pawnPattern = [
+        "   ++   ",
+        "  ####  ",
+        "  ####  ",
+        "  ####  ",
+        "  ####  ",
+        "  ####  ",
+        "  ####  ",
+        "  ####  "
+    ]
+    
     // Create a function to generate SKNode from pattern
     static func createPiece(type: PieceType, color: PieceColor, size: CGFloat) -> SKNode {
         let pattern: [String]
@@ -46,8 +70,12 @@ class PixelPieces {
             pattern = kingPattern
         case .rook:
             pattern = rookPattern
+        case .bishop:
+            pattern = bishopPattern
         case .knight:
             pattern = knightPattern
+        case .pawn:
+            pattern = pawnPattern
         }
         
         let pieceNode = SKNode()

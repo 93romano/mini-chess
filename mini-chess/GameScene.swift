@@ -5,9 +5,9 @@ import AVFoundation
 
 class GameScene: SKScene {
     var board: Board!
-    private let squareSize: CGFloat = 60.0
+    private var squareSize: CGFloat = 60.0
     private var boardNode: SKNode!
-    private var pieceNodes: [[SKNode?]] = Array(repeating: Array(repeating: nil, count: 5), count: 5)
+    private var pieceNodes: [[SKNode?]] = []
     private var moveIndicators: [Position: SKNode] = [:]
     private var gameManager: GameManager!
     private var turnLabel: SKLabelNode!
@@ -22,9 +22,11 @@ class GameScene: SKScene {
         print("Scene size: \(size)")
         print("View bounds: \(view.bounds)")
 
-        backgroundColor = .systemBackground
+        backgroundColor = .black
 
         setupBoard()
+        // Fit board to screen: 80% of min dimension
+        squareSize = floor(min(size.width, size.height) * 0.8 / CGFloat(board.size))
         print("보드 설정 완료")
 
         setupBoardVisuals()
@@ -44,7 +46,8 @@ class GameScene: SKScene {
     }
     
     private func setupBoard() {
-        board = Board()
+        // Default 5; change to 7 for 7x7 game
+        board = Board(size: 7)
         board.setupInitialPosition()
         boardNode = SKNode()
         addChild(boardNode)
@@ -102,7 +105,7 @@ class GameScene: SKScene {
                     boardNode.addChild(pieceNode)
                     
                     if pieceNodes.isEmpty {
-                        pieceNodes = Array(repeating: Array(repeating: nil, count: 5), count: 5)
+                        pieceNodes = Array(repeating: Array(repeating: nil, count: board.size), count: board.size)
                     }
                     pieceNodes[row][col] = pieceNode
                 }
@@ -312,7 +315,7 @@ class GameScene: SKScene {
     
     private func restartGame() {
         removeAllChildren()
-        pieceNodes = Array(repeating: Array(repeating: nil, count: 5), count: 5)
+        pieceNodes = Array(repeating: Array(repeating: nil, count: board.size), count: board.size)
         moveIndicators = [:]
         
         setupBoard()

@@ -6,9 +6,18 @@ class GameManager {
     var selectedPiece: Piece?
     var selectedPosition: Position?
     var possibleMoves: [Position] = []
+    var aiEnabled: Bool = true
+    var aiColor: PieceColor = .black
+    var aiDifficulty: AIDifficulty = .medium
+    var aiTimeLimit: TimeInterval = 10
+    private let aiEngine = AIEngine()
+    private var aiWorkItem: DispatchWorkItem?
     
     init(gameScene: GameScene) {
         self.gameScene = gameScene
+        DispatchQueue.main.async { [weak self] in
+            self?.triggerAIIfNeeded()
+        }
     }
     
     func handleTouch(at position: Position) {
@@ -97,6 +106,8 @@ class GameManager {
         // Haptic feedback
         let impact = UIImpactFeedbackGenerator(style: .medium)
         impact.impactOccurred()
+
+        triggerAIIfNeeded()
     }
     
     func gameOver(winner: PieceColor) {
@@ -106,5 +117,28 @@ class GameManager {
         // Heavy haptic for game over
         let impact = UIImpactFeedbackGenerator(style: .heavy)
         impact.impactOccurred()
+    }
+
+    func triggerAIIfNeeded() {
+        guard aiEnabled, let scene = gameScene else { return }
+        guard currentTurn == aiColor else { return }
+
+        aiWorkItem?.cancel()
+        let boardCopy = scene.board.clone()
+        let color = aiColor
+        let difficulty = aiDifficulty
+        let timeLimit = aiTimeLimit
+
+        let work = DispatchWorkItem { [weak self] in
+            let move = self?.aiEngine.chooseMove(board: boardCopy, for: color, difficulty: difficulty, timeLimit: timeLimit)
+            DispatchQueue.main.async {
+                guard let self = self, self.currentTurn == color else { return }
+                if let m = move {
+                    self.movePiece(from: m.from, to: m.to)
+                }
+            }
+        }
+        aiWorkItem = work
+        DispatchQueue.global(qos: .userInitiated).async(execute: work)
     }
 }
