@@ -25,8 +25,8 @@ class GameScene: SKScene {
         backgroundColor = .black
 
         setupBoard()
-        // Fit board to screen: 80% of min dimension
-        squareSize = floor(min(size.width, size.height) * 0.8 / CGFloat(board.size))
+        // Fit board to screen: ~92% of min dimension for larger board
+        squareSize = floor(min(size.width, size.height) * 0.92 / CGFloat(board.size))
         print("보드 설정 완료")
 
         setupBoardVisuals()
@@ -36,6 +36,11 @@ class GameScene: SKScene {
         print("피스 설정 완료")
 
         setupUI()
+        // Position turn label within safe area to avoid notch clipping
+        if let skView = self.view {
+            let topInset = skView.safeAreaInsets.top
+            turnLabel.position = CGPoint(x: size.width / 2, y: size.height - topInset - 24)
+        }
         print("UI 설정 완료")
 
         setupSounds()
